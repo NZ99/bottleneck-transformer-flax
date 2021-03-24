@@ -44,7 +44,7 @@ rng = random.PRNGKey(seed=0)
 model = BoTNet(config=config)
 params = model.init(rng, jnp.ones((1, 256, 256, 3), dtype=config.dtype))
 img = random.uniform(rng, (2, 256, 256, 3))
-logits = model.apply(params, img) # (2, 1000)
+logits, updated_state = model.apply(params, img, mutable=['batch_stats']) # logits.shape is (2, 1000)
 ```
 
 ## Citation
