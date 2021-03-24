@@ -6,7 +6,8 @@ The code in this repository is limited to the image classification models and ba
 
 ## Known issues
 
-It's worth noting that the models as made available in this repository do not perfectly match the number of parameters as presented in the paper. It is my belief however that the majority of the difference is due to an error in the script used by the authors to count the number of parameters: specifically, section 4.8.4 notes that Squeeze-and-Excite layers are only employed in ResNet bottleneck blocks, while the <a href="https://gist.github.com/aravindsrinivas/e8a9e33425e10ed0c69c1bf726b81495">official script</a> doesn't take this into account. Updating the script (specifically line 111) to take this fact into account leads to an almost perfect match.
+It's worth noting that the models as made available in this repository do not perfectly match the number of parameters as presented in the paper. It is my belief however that the majority of the difference is due to an error in the script used by the authors to count the number of parameters: specifically, section 4.8.4 notes that Squeeze-and-Excite layers are only employed in ResNet bottleneck blocks, while the <a href="https://gist.github.com/aravindsrinivas/e8a9e33425e10ed0c69c1bf726b81495">official script</a> does not correctly take this into account. Updating the script (specifically line 111) leads to an almost perfect match.
+
 The number of parameters are reported for clarity:
 
 | Model | Parameters in this repo | Parameters after updating the script | Parameters in the paper
@@ -17,7 +18,7 @@ T5 | 69.0M | 68.8M | 75.1M
 T6 | 47.8M | 47.7M | 53.9M
 T7 | 69.0M | 68.8M | 75.1M
 
-I am currently waiting for feedback from the authors about this issue and will update the repo once I know more this specific issue.
+I am currently waiting for feedback from the authors about this issue and will update the repo once I know more about it.
 
 ## Install
 
