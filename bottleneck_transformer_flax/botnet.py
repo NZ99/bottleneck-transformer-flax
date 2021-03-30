@@ -300,7 +300,7 @@ class BoTBlock(nn.Module):
 
 
 class BoTNet(nn.Module):
-    """Bottlenet Transformer Network module.
+    """Bottleneck Transformer Network module.
 
     Attributes:
         config: BoTNet configuration

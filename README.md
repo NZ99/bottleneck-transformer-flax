@@ -1,6 +1,6 @@
 ## Bottleneck Transformers in JAX/Flax
 
-An implementation of <a href="https://arxiv.org/abs/2101.11605">Bottleneck Transformers for Visual Recognition</a>, a hybrid architecture that replaces the spatial convolutions in the final three bottleneck blocks of a ResNet with global self-attention.
+An implementation of <a href="https://arxiv.org/abs/2101.11605">Bottleneck Transformers for Visual Recognition</a>, a powerful hybrid architecture that combines a ResNet architecture and global relative position self-attention.
 
 The code in this repository is limited to the image classification models and based on the <a href="https://gist.github.com/aravindsrinivas/56359b79f0ce4449bcb04ab4b56a57a2">authors' official code</a>.
 
@@ -36,9 +36,7 @@ from bottleneck_transformer_flax import BoTNet, BoTNetConfig
 #example configuration for BoTNet-S1-128
 config = BoTNetConfig(
     stage_sizes = [3, 4, 23, 12],
-    num_classes = 1000,
-    stride_one = True,
-    se_ratio = 0.0625
+    num_classes = 1000
 )
 
 rng = random.PRNGKey(seed=0)
@@ -46,6 +44,77 @@ model = BoTNet(config=config)
 params = model.init(rng, jnp.ones((1, 256, 256, 3), dtype=config.dtype))
 img = random.uniform(rng, (2, 256, 256, 3))
 logits, updated_state = model.apply(params, img, mutable=['batch_stats']) # logits.shape is (2, 1000)
+```
+
+## Example Configurations
+
+A BoTNet configuration has the following arguments:
+
+```python
+class BoTNetConfig:
+    stage_sizes: Sequence[int]                                          # Stages sizes (as in Table 13)
+    num_classes: int = 1000                                             # Number of classes
+    stride_one: bool = True                                             # Whether the model is a BoTNet-S1
+    se_ratio: float = 0.0625                                            # How much to squeeze
+    activation_fn: ModuleDef = nn.swish                                 # Activation function
+    num_heads: int = 4                                                  # Number of heads in multi head self attention
+    head_dim: int = 128                                                 # Head dimension in multi head self attention
+    initial_filters: int = 64                                           # Resnet stem output channels
+    projection_factor: int = 4                                          # Ratio between block output and input channels
+    bn_momentum: float = 0.9                                            # Batch normalization momentum
+    bn_epsilon: float = 1e-5                                            # Batch normalization epsilon
+    dtype: Any = jnp.float32                                            # Dtype of the computation
+    precision: Any = jax.lax.Precision.DEFAULT                          # Numerical precision of the computation
+    kernel_init: Callable = initializers.he_uniform()                   # Initializer function for the weight matrix
+    bias_init: Callable = initializers.normal(stddev=1e-6)              # Initializer function for the bias
+    posemb_init: Callable = initializers.normal(stddev=head_dim**-0.5)  # Initializer function for positional embeddings
+```
+
+Provided below are example configurations for all BoTNets.
+
+### BoTNet T3
+
+```python
+config = BoTNetConfig(
+    stage_sizes = [3, 4, 6, 6],
+    num_classes = 1000
+)
+```
+
+### BoTNet T4
+
+```python
+config = BoTNetConfig(
+    stage_sizes = [3, 4, 23, 6],
+    num_classes = 1000
+)
+```
+
+### BoTNet T5
+
+```python
+config = BoTNetConfig(
+    stage_sizes = [3, 4, 23, 12],
+    num_classes = 1000
+)
+```
+
+### BoTNet T6
+
+```python
+config = BoTNetConfig(
+    stage_sizes = [3, 4, 6, 12],
+    num_classes = 1000
+)
+```
+
+### BoTNet T7
+
+```python
+config = BoTNetConfig(
+    stage_sizes = [3, 4, 23, 12],
+    num_classes = 1000
+)
 ```
 
 ## Citation
