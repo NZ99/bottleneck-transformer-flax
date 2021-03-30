@@ -27,7 +27,7 @@ class BoTNetConfig:
     projection_factor: int = 4
     bn_momentum: float = 0.9
     bn_epsilon: float = 1e-5
-    dtype: Any = jnp.float32
+    dtype: jnp.dtype = jnp.float32
     precision: Any = jax.lax.Precision.DEFAULT
     kernel_init: Callable = initializers.he_uniform()
     bias_init: Callable = initializers.normal(stddev=1e-6)

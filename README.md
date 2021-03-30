@@ -47,7 +47,7 @@ class BoTNetConfig:
     projection_factor: int = 4                                          # Ratio between block output and input channels
     bn_momentum: float = 0.9                                            # Batch normalization momentum
     bn_epsilon: float = 1e-5                                            # Batch normalization epsilon
-    dtype: Any = jnp.float32                                            # Dtype of the computation
+    dtype: jnp.dtype = jnp.float32                                      # dtype of the computation
     precision: Any = jax.lax.Precision.DEFAULT                          # Numerical precision of the computation
     kernel_init: Callable = initializers.he_uniform()                   # Initializer function for the weight matrix
     bias_init: Callable = initializers.normal(stddev=1e-6)              # Initializer function for the bias
