@@ -1,1 +1,2 @@
-from bottleneck_transformer_flax.botnet import BoTNet, BoTNetConfig
+from bottleneck_transformer_flax.botnet import BoTNet
+from bottleneck_transformer_flax.botnet_config import BoTNetConfig
