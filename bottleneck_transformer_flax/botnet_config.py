@@ -2,7 +2,7 @@ from typing import Callable, Any, Sequence
 
 import jax
 from jax import numpy as jnp
-from jax import initializers
+from jax.nn import initializers
 
 from flax import linen as nn
 from flax import struct
